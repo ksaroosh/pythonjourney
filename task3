@@ -1,0 +1,64 @@
+# Source data
+source_data = [
+    [5, 25, 34, 97,75,100],
+    [109, 145, 160, 156,200],
+    [205, 223, 250, 273, 300]
+]
+
+# Student ID
+student_id = "12345"
+
+
+def cost_slab1():
+    cost_per_unit = 10
+    total_cost = 0
+    print("")
+    print(f"Bill for Slab 1 (0-100 units):")
+    for unit in source_data[0]:
+      total_cost += unit * cost_per_unit
+      print("Unit(s)", unit, " Cost : ", total_cost)
+          
+
+def cost_slab2():
+    cost_per_unit = 15
+    total_cost = 0
+    print("")
+    print(f"Bill for Slab 2 (101-200 units):")
+    for unit in source_data[1]:
+      total_cost += unit * cost_per_unit
+      print("Unit(s)", unit, " Cost : ", total_cost)
+
+def cost_slab3():
+    cost_per_unit = 20
+    total_cost = 0
+    print("")
+    print(f"Bill for Slab 3 (201-300 units):")
+    for unit in source_data[2]:
+      total_cost += unit * cost_per_unit
+      print("Unit(s) : ", unit, " Cost : ", total_cost)
+
+def display_menu():
+    while True:
+        print("")
+        print(f"Student ID: {student_id}")
+        print("")
+        print("1. Display bill for Slab 1 and Slab 2")
+        print("2. Display bill for Slab 3")
+        print("Any other key to exit")
+        print("")
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            cost_slab1()
+            cost_slab2()
+        elif choice == '2':
+            cost_slab3()
+        else:
+            break
+
+# Display the menu
+display_menu()
+
+
+
+
