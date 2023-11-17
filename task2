@@ -1,0 +1,95 @@
+# Constants
+COACH_CAPACITY = 80
+COST_PER_JOURNEY = 25
+GROUP_DISCOUNT_THRESHOLD = 10
+GROUP_DISCOUNT_PERCENTAGE = 100
+LAST_TRAIN_EXTRA_COACHES = 2
+DEPARTURE_TIMES = ["09:00", "11:00", "13:00", "15:00"]
+RETURN_TIMES = ["10:00", "12:00", "14:00", "16:00"]
+
+total_passengers_up = {time: 0 for time in DEPARTURE_TIMES}
+total_money_up = {time: 0 for time in DEPARTURE_TIMES}
+total_passengers_down = {time: 0 for time in RETURN_TIMES}
+total_money_down = {time: 0 for time in RETURN_TIMES}
+
+# Function to display the start-of-day screen
+def display_start_of_day():
+    print("===== Start of the Day =====")
+    print("Journey Up:")
+    for time in DEPARTURE_TIMES:
+        print(f"{time}: Total Passengers - {total_passengers_up[time]}, Total Money - ${total_money_up[time]:.2f}")
+
+    print("\nJourney Down:")
+    for time in RETURN_TIMES:
+        print(f"{time}: Total Passengers - {total_passengers_down[time]}, Total Money - ${total_money_down[time]:.2f}")
+
+# Function to purchase tickets
+def purchase_tickets(journey_type, journey_time, available_capacity):
+    print(f"\n===== Purchase Tickets for {journey_type} Journey at {journey_time} =====")
+
+    # Prompt user for the number of tickets
+    while True:
+        try:
+            num_tickets = int(input(f"How many tickets for the {journey_type} journey at {journey_time}? "))
+            if 1 <= num_tickets <= available_capacity:
+                break
+            else:
+                print(f"Invalid number of tickets. Please enter a number between 1 and {available_capacity}.")
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+    # Update available capacity
+    available_capacity -= num_tickets
+
+    # Calculate total price
+    total_price = num_tickets * COST_PER_JOURNEY
+
+    # Apply group discount if applicable
+    if num_tickets >= GROUP_DISCOUNT_THRESHOLD:
+        free_tickets = num_tickets // GROUP_DISCOUNT_THRESHOLD
+        total_price -= free_tickets * COST_PER_JOURNEY
+        print(f"Group discount applied! {free_tickets} ticket(s) are free.")
+
+    # Update totals
+    update_totals(journey_type, journey_time, num_tickets, total_price)
+
+    print(f"\nTickets purchased successfully. Total Price: ${total_price:.2f}")
+
+    return num_tickets
+
+# Function to update totals
+def update_totals(journey_type, journey_time, num_tickets, total_price):
+    if journey_type == "Up":
+        total_passengers = total_passengers_up
+        total_money = total_money_up
+    else:
+        total_passengers = total_passengers_down
+        total_money = total_money_down
+
+    total_passengers[journey_time] += num_tickets
+    total_money[journey_time] += total_price
+
+# Main program
+def main():
+    # Assume that at the start of the day, all seats are available
+    available_capacity_up = COACH_CAPACITY * len(DEPARTURE_TIMES)
+    available_capacity_down = COACH_CAPACITY * (len(RETURN_TIMES) + LAST_TRAIN_EXTRA_COACHES)
+
+    # Purchase tickets for each journey
+    for i, departure_time in enumerate(DEPARTURE_TIMES):
+        num_tickets_up = purchase_tickets("Up", departure_time, available_capacity_up)
+        num_tickets_down = purchase_tickets("Down", RETURN_TIMES[i], available_capacity_down)
+
+    # Display the updated totals
+    display_start_of_day()
+
+# Find and display the train journey with the most passengers
+    max_passengers_up = max(total_passengers_up, key=total_passengers_up.get)
+    max_passengers_down = max(total_passengers_down, key=total_passengers_down.get)
+
+    print("\n===== Train Journey with Most Passengers =====")
+    print(f"Journey Up with Most Passengers: {max_passengers_up} - {total_passengers_up[max_passengers_up]} passengers")
+    print(f"Journey Down with Most Passengers: {max_passengers_down} - {total_passengers_down[max_passengers_down]} passengers")
+
+if __name__ == "__main__":
+    main()
