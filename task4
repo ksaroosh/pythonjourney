@@ -1,0 +1,52 @@
+def Display():
+  cnic = input("Enter last 8 digits of your cnic number (13456378):")
+  print()
+  while True:
+    if len(cnic) != 8:
+      print("The cnic number is invalid please enter another value")
+      cnic = input("Enter last 8 digits of you cnic number (13456378):")
+      print()
+    else:
+      length = int(cnic[7])
+      break
+
+  while True:
+    print()
+    Menu_choice = input("Enter 1 for Hexagon, Enter 2 for Square, Enter any other value to exit : ")
+    print()
+
+    if Menu_choice == '1':
+      calcArea(length)
+      calcPeri(length)
+      calcAngleSum()
+
+    elif Menu_choice == '2':
+      calcAreaSquare(length+1)
+      calcPeriSquare(length+1)
+
+    else:
+      print("The program is terminated")
+      break    
+
+def calcArea(length):
+  area_hexagon = 1.5*1.732*length
+  print("Area of Hexagon : ", area_hexagon)
+
+def calcPeri(length):
+  peri_hexagon = 6*length
+  print("Perimeter of Hexagon :", peri_hexagon)
+
+def calcAngleSum():
+  angle_hexagon = 120
+  sum_angle_hexagon = 6*angle_hexagon
+  print("Sum of all angles of hexagon : ", sum_angle_hexagon)
+
+def calcAreaSquare(length):
+  area_square = length ** 2
+  print("Area of Square : ", area_square)
+
+def calcPeriSquare(length):
+  peri_square = length*4
+  print("Perimeter of Square : ", peri_square)  
+
+Display()
